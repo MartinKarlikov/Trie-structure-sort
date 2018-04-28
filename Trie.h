@@ -54,9 +54,10 @@ private:
 		TNElement* container;
 
 	};
-	
+
 	void fillStack(TrieNode*, stack<TNElement>&) const;
 
+	size_t sizeInBytes;
 	TrieNode* root;
 };
 
