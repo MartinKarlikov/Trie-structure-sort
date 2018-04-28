@@ -2,7 +2,7 @@
 
 Trie::Trie()
 {
-
+	sizeInBytes = 53 * sizeof(TNElement);
 	root = new TrieNode;
 
 }
@@ -36,7 +36,7 @@ void Trie::add(string toAdd)
 
 		if (current->container[letter].next == nullptr)
 		{
-
+			sizeInBytes += 53 * sizeof(TNElement);
 			current->container[letter].next = new TrieNode;
 
 		}
@@ -127,32 +127,14 @@ bool Trie::contains(string str) const
 
 size_t Trie::size() const
 {
-	stack<TNElement> stack;
-	size_t size=0;
-	TNElement current;
-
-	fillStack(root, stack);
-
-	while (!stack.empty())
-	{
-		current = stack.top();
-		stack.pop();
-		if (current.next)
-		{
-			fillStack(current.next, stack);
-		}
-		size += sizeof(current);
-	}
-	return size;
+	return sizeInBytes;
 }
-
 
 void Trie::print() const
 {
 	void(*printFunc)(string, void*) = helperPrint;
 	traverse(printFunc, nullptr);
 }
-
 
 
 size_t Trie::count() const
@@ -177,10 +159,9 @@ int Trie::parseChar(char toParse) const
 char Trie::parseIndex(size_t index) const
 {
 	return (index >= 0 && index <= 25) ?
-		(char)index + 65 : 
+		(char)index + 65 :
 		(char)index + 71;
 }
-
 
 void Trie::fillStack(TrieNode * current, stack<TNElement>& stack) const
 {
@@ -195,11 +176,9 @@ void Trie::fillStack(TrieNode * current, stack<TNElement>& stack) const
 		{
 
 			stack.push(current->container[i]);
-
 		}
 
 	}
-
 }
 
 Trie::TrieNode::TrieNode()
@@ -208,7 +187,7 @@ Trie::TrieNode::TrieNode()
 
 	for (size_t i = 0; i <= 52; i++)
 	{
-
+	
 		container[i].index = i;
 		container[i].next = nullptr;
 		container[i].count = 0;
