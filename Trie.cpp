@@ -202,3 +202,7 @@ Trie::TrieNode::~TrieNode()
 
 }
 
+Trie::TNElement::~TNElement()
+{
+	delete next;
+}
