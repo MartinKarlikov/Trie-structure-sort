@@ -64,7 +64,8 @@ private:
 	//and the index used to build the word through the dfs search
 	struct TNElement
 	{
-
+		~TNElement();
+		
 		TrieNode* next;
 
 		short count;
