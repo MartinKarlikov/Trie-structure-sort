@@ -51,13 +51,13 @@ void Trie::add(string toAdd)
 void Trie::traverse(void(*action)(string, void*), void* container) const
 {
 
-	stack<TNElement> dfsStack;
+	stack<TNElement*> dfsStack;
 
 	string cString;
 
 	fillStack(root, dfsStack);
 
-	TNElement current;
+	TNElement* current;
 
 	while (!dfsStack.empty())
 	{
@@ -65,7 +65,7 @@ void Trie::traverse(void(*action)(string, void*), void* container) const
 		current = dfsStack.top();
 		dfsStack.pop();
 
-		if (current.index == 52 && cString.size() != 0)
+		if (current->index == 52 && cString.size() != 0)
 		{
 
 			cString.erase(cString.size() - 1, 1);
@@ -73,19 +73,19 @@ void Trie::traverse(void(*action)(string, void*), void* container) const
 
 		}
 
-		cString.append(1, parseIndex(current.index));
+		cString.append(1, parseIndex(current->index));
 
-		for (int i = current.count; i > 0; --i)
+		for (int i = current->count; i > 0; --i)
 		{
 
 			action(cString, container);
 
 		}
 
-		if (current.next != nullptr)
+		if (current->next != nullptr)
 		{
 
-			fillStack(current.next, dfsStack);
+			fillStack(current->next, dfsStack);
 
 		}
 
@@ -163,23 +163,25 @@ char Trie::parseIndex(size_t index) const
 		(char)index + 71;
 }
 
-void Trie::fillStack(TrieNode * current, stack<TNElement>& stack) const
+void Trie::fillStack(TrieNode * current, stack<TNElement*>& stack) const
 {
-	TNElement temp;
+	TNElement* temp;
 
 	for (int i = 52; i >= 0; --i)
 	{
 
-		temp = current->container[i];
+		temp = &(current->container[i]);
 
-		if (temp.next != nullptr || temp.count != 0 || temp.index == 52)
+		if (temp->next != nullptr || temp->count != 0 || temp->index == 52)
 		{
 
-			stack.push(current->container[i]);
+			stack.push(temp);
 		}
 
 	}
 }
+
+
 
 Trie::TrieNode::TrieNode()
 {
@@ -187,7 +189,7 @@ Trie::TrieNode::TrieNode()
 
 	for (size_t i = 0; i <= 52; i++)
 	{
-	
+
 		container[i].index = i;
 		container[i].next = nullptr;
 		container[i].count = 0;
@@ -197,9 +199,9 @@ Trie::TrieNode::TrieNode()
 
 Trie::TrieNode::~TrieNode()
 {
-
+	cout << "TrieNode was destroyed" << endl;
 	delete[] container;
-
+		
 }
 
 Trie::TNElement::~TNElement()
