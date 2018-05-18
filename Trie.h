@@ -1,4 +1,5 @@
 #pragma once
+
 #include <stack>
 #include "helperFunctions.h"
 
@@ -9,10 +10,10 @@ public:
 
 	//default constructor
 	Trie();
-	
+
 	//destructor - reuses TriNode destructor
 	~Trie();
-	
+
 	//Adds a given string to the Trie by checking for 
 	//already contained prefixes
 	//by induction on the string length
@@ -48,7 +49,7 @@ private:
 	//when it finds a contained word
 	//and void pointers to specify the container type
 	//or it can be given a numerical value to count the contained strings
-	void traverse(void (*action)(string,void*),void*) const;
+	void traverse(void(*action)(string, void*), void*) const;
 
 	//returns the index in the TrieNode of the given letter
 	int parseChar(char) const;
@@ -65,7 +66,7 @@ private:
 	struct TNElement
 	{
 		~TNElement();
-		
+
 		TrieNode* next;
 
 		short count;
@@ -88,11 +89,11 @@ private:
 	};
 
 	//fills the stack of the dfs with the significant for the search TNelements
-	void fillStack(TrieNode*, stack<TNElement>&) const;
+	void fillStack(TrieNode*, stack<TNElement*>&) const;
 
 	//size in bytes of the Trie
 	size_t sizeInBytes;
-	
+
 	//the root of the Trie
 	TrieNode* root;
 };
